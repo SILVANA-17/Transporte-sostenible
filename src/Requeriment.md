@@ -1,0 +1,3 @@
+## Requerimientos 
+
+Quiero crear un api rest con spring boot que me permita administrar su plataforma de vehiculo, electricos y bicicletas. El sistema debe permitir registrar, consultas, actualizar y eliminar informacion de los diferentes actores del negocio, garantizando la aplicacion de los principios de la POOy actualizando java version superior a 23 con el framework Spring Boot y lombook. Quiero manejar nombramientos en ingles, conservando principios SOILD, KISS, DRY, persitiendo la informacion en archivos separados por omas. Dentro de la base modelo pon las clases Vehiculo, BicicletaElectrica, MotoElectrica, Usuario, Cliente, Empleado, ContratoAlquiler, Factura, MetodoPago, Mantenimiento  

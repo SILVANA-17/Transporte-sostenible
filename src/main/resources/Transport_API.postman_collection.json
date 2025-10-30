@@ -1,0 +1,334 @@
+{
+  "info": {
+    "name": "Transport API",
+    "description": "Colección de endpoints para la API de Transporte Sostenible",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Vehicles",
+      "item": [
+        {
+          "name": "Create Bicycle",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"brand\": \"Trek\",\n  \"model\": \"FX 3\",\n  \"year\": 2024,\n  \"licensePlate\": \"BIC001\",\n  \"batteryCapacity\": 500,\n  \"maxSpeed\": 45\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/vehicles/bicycles",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "vehicles", "bicycles"]
+            }
+          }
+        },
+        {
+          "name": "Create Motorcycle",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"brand\": \"Yamaha\",\n  \"model\": \"E01\",\n  \"year\": 2024,\n  \"licensePlate\": \"MOT001\",\n  \"batteryCapacity\": 5000,\n  \"maxSpeed\": 120\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/vehicles/motorcycles",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "vehicles", "motorcycles"]
+            }
+          }
+        },
+        {
+          "name": "Get All Vehicles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/vehicles",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "vehicles"]
+            }
+          }
+        },
+        {
+          "name": "Get Vehicle by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/vehicles/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "vehicles", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Vehicle",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"brand\": \"Trek\",\n  \"model\": \"FX 3\",\n  \"year\": 2024,\n  \"licensePlate\": \"BIC001\",\n  \"batteryCapacity\": 600,\n  \"maxSpeed\": 50\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/vehicles/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "vehicles", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Vehicle",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/vehicles/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "vehicles", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create Client",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan@example.com\",\n  \"phone\": \"3001234567\",\n  \"address\": \"Calle 10 #20-30\",\n  \"documentType\": \"CC\",\n  \"documentNumber\": \"1234567890\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/users/clients",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "users", "clients"]
+            }
+          }
+        },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Carlos López\",\n  \"email\": \"carlos@example.com\",\n  \"phone\": \"3009876543\",\n  \"address\": \"Calle 5 #10-15\",\n  \"documentType\": \"CC\",\n  \"documentNumber\": \"9876543210\",\n  \"salary\": 2500000,\n  \"position\": \"Driver\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/users/employees",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "users", "employees"]
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/users",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "users"]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/users/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan.updated@example.com\",\n  \"phone\": \"3001234567\",\n  \"address\": \"Calle 10 #20-30\",\n  \"documentType\": \"CC\",\n  \"documentNumber\": \"1234567890\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/users/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/users/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "users", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rental Contracts",
+      "item": [
+        {
+          "name": "Create Rental Contract",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": 1,\n  \"vehicleId\": 1,\n  \"startDate\": \"2024-10-30\",\n  \"endDate\": \"2024-11-30\",\n  \"dailyRate\": 50000,\n  \"totalCost\": 1500000,\n  \"status\": \"ACTIVE\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/rental-contracts",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "rental-contracts"]
+            }
+          }
+        },
+        {
+          "name": "Get All Rental Contracts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/rental-contracts",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "rental-contracts"]
+            }
+          }
+        },
+        {
+          "name": "Get Rental Contract by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/rental-contracts/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "rental-contracts", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Rental Contract",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": 1,\n  \"vehicleId\": 1,\n  \"startDate\": \"2024-10-30\",\n  \"endDate\": \"2024-12-30\",\n  \"dailyRate\": 55000,\n  \"totalCost\": 1650000,\n  \"status\": \"ACTIVE\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/rental-contracts/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "rental-contracts", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Rental Contract",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/rental-contracts/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "rental-contracts", "1"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class ElectricMotorcycle extends Vehicle implements Maintenance {
-    private Double batteryCapacity;
+    private double batteryCapacity;
     private Integer maxSpeed;
     private String lastMaintenanceDate;
 

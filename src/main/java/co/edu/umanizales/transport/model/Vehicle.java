@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class Vehicle {
-    private Long id;
+    private long id;
     private String brand;
     private String model;
-    private Double pricePerHour;
+    private double pricePerHour;
 }

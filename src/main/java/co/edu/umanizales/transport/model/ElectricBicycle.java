@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class ElectricBicycle extends Vehicle implements Maintenance {
-    private Double batteryCapacity;
+    private double batteryCapacity;
     private String lastMaintenanceDate;
 
     @Override

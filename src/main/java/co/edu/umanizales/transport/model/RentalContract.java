@@ -9,12 +9,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RentalContract {
-    private Long id;
-    private Long vehicleId;
-    private Long clientId;
+    private long id;
+    private Vehicle vehicle;
+    private Client client;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Double totalPrice;
+    private double totalPrice;
     private String status;
     private PaymentMethod paymentMethod;
 }

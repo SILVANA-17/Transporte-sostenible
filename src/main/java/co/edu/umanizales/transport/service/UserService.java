@@ -7,7 +7,6 @@ import co.edu.umanizales.transport.util.CSVUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -46,7 +45,12 @@ public class UserService {
                 employee.setEmail(row.get("email"));
                 employee.setEmployeeId(row.get("employeeId"));
                 employee.setDepartment(row.get("department"));
-                employee.setSalary(Double.parseDouble(row.get("salary")));
+                String salaryStr = row.get("salary");
+                if (salaryStr != null && !salaryStr.isEmpty()) {
+                    employee.setSalary(Double.parseDouble(salaryStr));
+                } else {
+                    employee.setSalary(null);
+                }
                 employees.add(employee);
                 nextEmployeeId = Math.max(nextEmployeeId, employee.getId() + 1);
             }
@@ -76,12 +80,12 @@ public class UserService {
 
     public User getUserById(Long id) {
         for (Client client : clients) {
-            if (client.getId().equals(id)) {
+            if (client.getId() == id) {
                 return client;
             }
         }
         for (Employee employee : employees) {
-            if (employee.getId().equals(id)) {
+            if (employee.getId() == id) {
                 return employee;
             }
         }
@@ -90,7 +94,7 @@ public class UserService {
 
     public User updateUser(Long id, User user) {
         for (int i = 0; i < clients.size(); i++) {
-            if (clients.get(i).getId().equals(id)) {
+            if (clients.get(i).getId() == id) {
                 Client updated = (Client) user;
                 updated.setId(id);
                 clients.set(i, updated);
@@ -99,7 +103,7 @@ public class UserService {
             }
         }
         for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).getId().equals(id)) {
+            if (employees.get(i).getId() == id) {
                 Employee updated = (Employee) user;
                 updated.setId(id);
                 employees.set(i, updated);
@@ -111,12 +115,25 @@ public class UserService {
     }
 
     public boolean deleteUser(Long id) {
-        boolean removed = clients.removeIf(c -> c.getId().equals(id));
+        boolean removed = false;
+        for (int i = 0; i < clients.size(); i++) {
+            if (clients.get(i).getId() == id) {
+                clients.remove(i);
+                removed = true;
+                break;
+            }
+        }
         if (removed) {
             saveClientsToCSV();
             return true;
         }
-        removed = employees.removeIf(e -> e.getId().equals(id));
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i).getId() == id) {
+                employees.remove(i);
+                removed = true;
+                break;
+            }
+        }
         if (removed) {
             saveEmployeesToCSV();
             return true;
@@ -126,26 +143,32 @@ public class UserService {
 
     private void saveClientsToCSV() {
         List<String> headers = Arrays.asList("id", "name", "email", "phone", "address");
-        List<List<String>> rows = clients.stream().map(c -> Arrays.asList(
-            c.getId().toString(),
-            c.getName(),
-            c.getEmail(),
-            c.getPhone(),
-            c.getAddress()
-        )).collect(Collectors.toList());
+        List<List<String>> rows = new ArrayList<>();
+        for (Client c : clients) {
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(c.getId()));
+            row.add(c.getName());
+            row.add(c.getEmail());
+            row.add(c.getPhone());
+            row.add(c.getAddress());
+            rows.add(row);
+        }
         CSVUtil.writeToCSV(CLIENT_FILE, headers, rows);
     }
 
     private void saveEmployeesToCSV() {
         List<String> headers = Arrays.asList("id", "name", "email", "employeeId", "department", "salary");
-        List<List<String>> rows = employees.stream().map(e -> Arrays.asList(
-            e.getId().toString(),
-            e.getName(),
-            e.getEmail(),
-            e.getEmployeeId(),
-            e.getDepartment(),
-            e.getSalary().toString()
-        )).collect(Collectors.toList());
+        List<List<String>> rows = new ArrayList<>();
+        for (Employee e : employees) {
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(e.getId()));
+            row.add(e.getName());
+            row.add(e.getEmail());
+            row.add(e.getEmployeeId());
+            row.add(e.getDepartment());
+            row.add(e.getSalary() != null ? e.getSalary().toString() : "");
+            rows.add(row);
+        }
         CSVUtil.writeToCSV(EMPLOYEE_FILE, headers, rows);
     }
 }

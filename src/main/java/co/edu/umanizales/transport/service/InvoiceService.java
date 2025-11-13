@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class InvoiceService {
@@ -45,14 +44,23 @@ public class InvoiceService {
     }
 
     public Invoice getInvoiceById(Long id) {
-        return invoices.stream()
-            .filter(i -> i.invoiceId().equals(id))
-            .findFirst()
-            .orElse(null);
+        for (Invoice i : invoices) {
+            if (i.invoiceId().equals(id)) {
+                return i;
+            }
+        }
+        return null;
     }
 
     public boolean deleteInvoice(Long id) {
-        boolean removed = invoices.removeIf(i -> i.invoiceId().equals(id));
+        boolean removed = false;
+        for (int i = 0; i < invoices.size(); i++) {
+            if (invoices.get(i).invoiceId().equals(id)) {
+                invoices.remove(i);
+                removed = true;
+                break;
+            }
+        }
         if (removed) {
             saveInvoicesToCSV();
         }
@@ -61,11 +69,14 @@ public class InvoiceService {
 
     private void saveInvoicesToCSV() {
         List<String> headers = Arrays.asList("invoiceId", "date", "totalValue");
-        List<List<String>> rows = invoices.stream().map(i -> Arrays.asList(
-            i.invoiceId().toString(),
-            i.date().toString(),
-            i.totalValue().toString()
-        )).collect(Collectors.toList());
+        List<List<String>> rows = new ArrayList<>();
+        for (Invoice i : invoices) {
+            List<String> row = new ArrayList<>();
+            row.add(i.invoiceId().toString());
+            row.add(i.date().toString());
+            row.add(i.totalValue().toString());
+            rows.add(row);
+        }
         CSVUtil.writeToCSV(INVOICE_FILE, headers, rows);
     }
 }

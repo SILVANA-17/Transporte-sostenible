@@ -7,7 +7,6 @@ import co.edu.umanizales.transport.util.CSVUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class VehicleService {
@@ -47,7 +46,12 @@ public class VehicleService {
                 moto.setModel(row.get("model"));
                 moto.setPricePerHour(Double.parseDouble(row.get("pricePerHour")));
                 moto.setBatteryCapacity(Double.parseDouble(row.get("batteryCapacity")));
-                moto.setMaxSpeed(Integer.parseInt(row.get("maxSpeed")));
+                String maxSpeedStr = row.get("maxSpeed");
+                if (maxSpeedStr != null && !maxSpeedStr.isEmpty()) {
+                    moto.setMaxSpeed(Integer.parseInt(maxSpeedStr));
+                } else {
+                    moto.setMaxSpeed(null);
+                }
                 moto.setLastMaintenanceDate(row.get("lastMaintenanceDate"));
                 motorcycles.add(moto);
                 nextMotorcycleId = Math.max(nextMotorcycleId, moto.getId() + 1);
@@ -78,12 +82,12 @@ public class VehicleService {
 
     public Vehicle getVehicleById(Long id) {
         for (ElectricBicycle bike : bicycles) {
-            if (bike.getId().equals(id)) {
+            if (bike.getId() == id) {
                 return bike;
             }
         }
         for (ElectricMotorcycle moto : motorcycles) {
-            if (moto.getId().equals(id)) {
+            if (moto.getId() == id) {
                 return moto;
             }
         }
@@ -92,7 +96,7 @@ public class VehicleService {
 
     public Vehicle updateVehicle(Long id, Vehicle vehicle) {
         for (int i = 0; i < bicycles.size(); i++) {
-            if (bicycles.get(i).getId().equals(id)) {
+            if (bicycles.get(i).getId() == id) {
                 ElectricBicycle updated = (ElectricBicycle) vehicle;
                 updated.setId(id);
                 bicycles.set(i, updated);
@@ -101,7 +105,7 @@ public class VehicleService {
             }
         }
         for (int i = 0; i < motorcycles.size(); i++) {
-            if (motorcycles.get(i).getId().equals(id)) {
+            if (motorcycles.get(i).getId() == id) {
                 ElectricMotorcycle updated = (ElectricMotorcycle) vehicle;
                 updated.setId(id);
                 motorcycles.set(i, updated);
@@ -113,12 +117,25 @@ public class VehicleService {
     }
 
     public boolean deleteVehicle(Long id) {
-        boolean removed = bicycles.removeIf(b -> b.getId().equals(id));
+        boolean removed = false;
+        for (int i = 0; i < bicycles.size(); i++) {
+            if (bicycles.get(i).getId() == id) {
+                bicycles.remove(i);
+                removed = true;
+                break;
+            }
+        }
         if (removed) {
             saveBicyclesToCSV();
             return true;
         }
-        removed = motorcycles.removeIf(m -> m.getId().equals(id));
+        for (int i = 0; i < motorcycles.size(); i++) {
+            if (motorcycles.get(i).getId() == id) {
+                motorcycles.remove(i);
+                removed = true;
+                break;
+            }
+        }
         if (removed) {
             saveMotorcyclesToCSV();
             return true;
@@ -128,28 +145,34 @@ public class VehicleService {
 
     private void saveBicyclesToCSV() {
         List<String> headers = Arrays.asList("id", "brand", "model", "pricePerHour", "batteryCapacity", "lastMaintenanceDate");
-        List<List<String>> rows = bicycles.stream().map(b -> Arrays.asList(
-            b.getId().toString(),
-            b.getBrand(),
-            b.getModel(),
-            b.getPricePerHour().toString(),
-            b.getBatteryCapacity().toString(),
-            b.getLastMaintenanceDate() != null ? b.getLastMaintenanceDate() : ""
-        )).collect(Collectors.toList());
+        List<List<String>> rows = new ArrayList<>();
+        for (ElectricBicycle b : bicycles) {
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(b.getId()));
+            row.add(b.getBrand());
+            row.add(b.getModel());
+            row.add(String.valueOf(b.getPricePerHour()));
+            row.add(String.valueOf(b.getBatteryCapacity()));
+            row.add(b.getLastMaintenanceDate() != null ? b.getLastMaintenanceDate() : "");
+            rows.add(row);
+        }
         CSVUtil.writeToCSV(BICYCLE_FILE, headers, rows);
     }
 
     private void saveMotorcyclesToCSV() {
         List<String> headers = Arrays.asList("id", "brand", "model", "pricePerHour", "batteryCapacity", "maxSpeed", "lastMaintenanceDate");
-        List<List<String>> rows = motorcycles.stream().map(m -> Arrays.asList(
-            m.getId().toString(),
-            m.getBrand(),
-            m.getModel(),
-            m.getPricePerHour().toString(),
-            m.getBatteryCapacity().toString(),
-            m.getMaxSpeed().toString(),
-            m.getLastMaintenanceDate() != null ? m.getLastMaintenanceDate() : ""
-        )).collect(Collectors.toList());
+        List<List<String>> rows = new ArrayList<>();
+        for (ElectricMotorcycle m : motorcycles) {
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(m.getId()));
+            row.add(m.getBrand());
+            row.add(m.getModel());
+            row.add(String.valueOf(m.getPricePerHour()));
+            row.add(String.valueOf(m.getBatteryCapacity()));
+            row.add(m.getMaxSpeed() != null ? m.getMaxSpeed().toString() : "");
+            row.add(m.getLastMaintenanceDate() != null ? m.getLastMaintenanceDate() : "");
+            rows.add(row);
+        }
         CSVUtil.writeToCSV(MOTORCYCLE_FILE, headers, rows);
     }
 }

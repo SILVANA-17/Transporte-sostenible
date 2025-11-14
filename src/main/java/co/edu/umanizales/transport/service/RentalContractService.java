@@ -25,8 +25,8 @@ public class RentalContractService {
             for (Map<String, String> row : data) {
                 RentalContract contract = new RentalContract();
                 contract.setId(Long.parseLong(row.get("id")));
-                contract.setVehicleId(Long.parseLong(row.get("vehicleId")));
-                contract.setClientId(Long.parseLong(row.get("clientId")));
+                contract.vehicle(Long.parseLong(row.get("vehicle")));
+                contract.client(Long.parseLong(row.get("client")));
                 contract.setStartDate(LocalDate.parse(row.get("startDate")));
                 contract.setEndDate(LocalDate.parse(row.get("endDate")));
                 contract.setTotalPrice(Double.parseDouble(row.get("totalPrice")));
@@ -77,11 +77,11 @@ public class RentalContractService {
     }
 
     private void saveContractsToCSV() {
-        List<String> headers = Arrays.asList("id", "vehicleId", "clientId", "startDate", "endDate", "totalPrice", "status", "paymentMethod");
+        List<String> headers = Arrays.asList("id", "vehicle", "client", "startDate", "endDate", "totalPrice", "status", "paymentMethod");
         List<List<String>> rows = contracts.stream().map(c -> Arrays.asList(
             c.getId().toString(),
-            c.getVehicleId().toString(),
-            c.getClientId().toString(),
+            c.vehicle().toString(),
+            c.client().toString(),
             c.getStartDate().toString(),
             c.getEndDate().toString(),
             c.getTotalPrice().toString(),

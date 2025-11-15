@@ -76,12 +76,12 @@ public class UserService {
 
     public User getUserById(Long id) {
         for (Client client : clients) {
-            if (client.getId().equals(id)) {
+            if (client.getId() == id) {
                 return client;
             }
         }
         for (Employee employee : employees) {
-            if (employee.getId().equals(id)) {
+            if (employee.getId() == id) {
                 return employee;
             }
         }
@@ -90,7 +90,7 @@ public class UserService {
 
     public User updateUser(Long id, User user) {
         for (int i = 0; i < clients.size(); i++) {
-            if (clients.get(i).getId().equals(id)) {
+            if (clients.get(i).getId() == id) {
                 Client updated = (Client) user;
                 updated.setId(id);
                 clients.set(i, updated);
@@ -99,7 +99,7 @@ public class UserService {
             }
         }
         for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).getId().equals(id)) {
+            if (employees.get(i).getId() == id) {
                 Employee updated = (Employee) user;
                 updated.setId(id);
                 employees.set(i, updated);
@@ -111,12 +111,12 @@ public class UserService {
     }
 
     public boolean deleteUser(Long id) {
-        boolean removed = clients.removeIf(c -> c.getId().equals(id));
+        boolean removed = clients.removeIf(c -> c.getId() == id);
         if (removed) {
             saveClientsToCSV();
             return true;
         }
-        removed = employees.removeIf(e -> e.getId().equals(id));
+        removed = employees.removeIf(e -> e.getId() == id);
         if (removed) {
             saveEmployeesToCSV();
             return true;
@@ -127,7 +127,7 @@ public class UserService {
     private void saveClientsToCSV() {
         List<String> headers = Arrays.asList("id", "name", "email", "phone", "address");
         List<List<String>> rows = clients.stream().map(c -> Arrays.asList(
-            c.getId().toString(),
+            String.valueOf(c.getId()),
             c.getName(),
             c.getEmail(),
             c.getPhone(),
@@ -139,12 +139,12 @@ public class UserService {
     private void saveEmployeesToCSV() {
         List<String> headers = Arrays.asList("id", "name", "email", "employeeId", "department", "salary");
         List<List<String>> rows = employees.stream().map(e -> Arrays.asList(
-            e.getId().toString(),
+            String.valueOf(e.getId()),
             e.getName(),
             e.getEmail(),
             e.getEmployeeId(),
             e.getDepartment(),
-            e.getSalary().toString()
+            String.valueOf(e.getSalary())
         )).collect(Collectors.toList());
         CSVUtil.writeToCSV(EMPLOYEE_FILE, headers, rows);
     }

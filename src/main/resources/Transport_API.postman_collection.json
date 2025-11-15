@@ -20,7 +20,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"brand\": \"Trek\",\n  \"model\": \"FX 3\",\n  \"year\": 2024,\n  \"licensePlate\": \"BIC001\",\n  \"batteryCapacity\": 500,\n  \"maxSpeed\": 45\n}"
+              "raw": "{\n  \"brand\": \"Trek\",\n  \"model\": \"FX 3\",\n  \"pricePerHour\": 15.50,\n  \"batteryCapacity\": 500.0,\n  \"lastMaintenanceDate\": \"2024-11-01\"\n}"
             },
             "url": {
               "raw": "http://localhost:8080/api/vehicles/bicycles",
@@ -43,7 +43,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"brand\": \"Yamaha\",\n  \"model\": \"E01\",\n  \"year\": 2024,\n  \"licensePlate\": \"MOT001\",\n  \"batteryCapacity\": 5000,\n  \"maxSpeed\": 120\n}"
+              "raw": "{\n  \"brand\": \"Yamaha\",\n  \"model\": \"E01\",\n  \"pricePerHour\": 45.00,\n  \"batteryCapacity\": 5000.0,\n  \"maxSpeed\": 120,\n  \"lastMaintenanceDate\": \"2024-11-01\"\n}"
             },
             "url": {
               "raw": "http://localhost:8080/api/vehicles/motorcycles",
@@ -94,7 +94,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"brand\": \"Trek\",\n  \"model\": \"FX 3\",\n  \"year\": 2024,\n  \"licensePlate\": \"BIC001\",\n  \"batteryCapacity\": 600,\n  \"maxSpeed\": 50\n}"
+              "raw": "{\n  \"brand\": \"Trek\",\n  \"model\": \"FX 3\",\n  \"pricePerHour\": 18.00,\n  \"batteryCapacity\": 600.0,\n  \"lastMaintenanceDate\": \"2024-11-10\"\n}"
             },
             "url": {
               "raw": "http://localhost:8080/api/vehicles/1",
@@ -136,7 +136,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan@example.com\",\n  \"phone\": \"3001234567\",\n  \"address\": \"Calle 10 #20-30\",\n  \"documentType\": \"CC\",\n  \"documentNumber\": \"1234567890\"\n}"
+              "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan@example.com\",\n  \"phone\": \"3001234567\",\n  \"address\": \"Calle 10 #20-30\"\n}"
             },
             "url": {
               "raw": "http://localhost:8080/api/users/clients",
@@ -159,7 +159,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Carlos López\",\n  \"email\": \"carlos@example.com\",\n  \"phone\": \"3009876543\",\n  \"address\": \"Calle 5 #10-15\",\n  \"documentType\": \"CC\",\n  \"documentNumber\": \"9876543210\",\n  \"salary\": 2500000,\n  \"position\": \"Driver\"\n}"
+              "raw": "{\n  \"name\": \"Carlos López\",\n  \"email\": \"carlos@example.com\",\n  \"employeeId\": \"EMP001\",\n  \"department\": \"Operations\",\n  \"salary\": 2500000.0\n}"
             },
             "url": {
               "raw": "http://localhost:8080/api/users/employees",
@@ -210,7 +210,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan.updated@example.com\",\n  \"phone\": \"3001234567\",\n  \"address\": \"Calle 10 #20-30\",\n  \"documentType\": \"CC\",\n  \"documentNumber\": \"1234567890\"\n}"
+              "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan.updated@example.com\",\n  \"phone\": \"3001234567\",\n  \"address\": \"Calle 10 #20-30\"\n}"
             },
             "url": {
               "raw": "http://localhost:8080/api/users/1",
@@ -252,7 +252,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"clientId\": 1,\n  \"vehicleId\": 1,\n  \"startDate\": \"2024-10-30\",\n  \"endDate\": \"2024-11-30\",\n  \"dailyRate\": 50000,\n  \"totalCost\": 1500000,\n  \"status\": \"ACTIVE\"\n}"
+              "raw": "{\n  \"vehicle\": 1,\n  \"client\": 1,\n  \"startDate\": \"2024-11-14\",\n  \"endDate\": \"2024-11-30\",\n  \"totalPrice\": 1500000.0,\n  \"status\": \"ACTIVE\",\n  \"paymentMethod\": \"CARD\"\n}"
             },
             "url": {
               "raw": "http://localhost:8080/api/rental-contracts",
@@ -303,7 +303,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"clientId\": 1,\n  \"vehicleId\": 1,\n  \"startDate\": \"2024-10-30\",\n  \"endDate\": \"2024-12-30\",\n  \"dailyRate\": 55000,\n  \"totalCost\": 1650000,\n  \"status\": \"ACTIVE\"\n}"
+              "raw": "{\n  \"vehicle\": 1,\n  \"client\": 1,\n  \"startDate\": \"2024-11-14\",\n  \"endDate\": \"2024-12-14\",\n  \"totalPrice\": 1800000.0,\n  \"status\": \"ACTIVE\",\n  \"paymentMethod\": \"TRANSFER\"\n}"
             },
             "url": {
               "raw": "http://localhost:8080/api/rental-contracts/1",

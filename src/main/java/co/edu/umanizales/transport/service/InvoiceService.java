@@ -2,6 +2,7 @@ package co.edu.umanizales.transport.service;
 
 import co.edu.umanizales.transport.model.Invoice;
 import co.edu.umanizales.transport.util.CSVUtil;
+import co.edu.umanizales.transport.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -58,15 +59,23 @@ public class InvoiceService {
     }
 
     public Invoice getInvoiceById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Error: El ID de la factura debe ser un número válido mayor a 0");
+        }
+        
         for (Invoice i : invoices) {
             if (i.invoiceId().equals(id)) {
                 return i;
             }
         }
-        return null;
+        throw new ResourceNotFoundException("Error: este dato no existe - Factura con ID " + id + " no encontrada");
     }
 
     public boolean deleteInvoice(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Error: El ID de la factura debe ser un número válido mayor a 0");
+        }
+        
         boolean removed = false;
         for (int i = 0; i < invoices.size(); i++) {
             if (invoices.get(i).invoiceId().equals(id)) {
@@ -77,8 +86,9 @@ public class InvoiceService {
         }
         if (removed) {
             saveInvoicesToCSV();
+            return true;
         }
-        return removed;
+        throw new ResourceNotFoundException("Error: este dato no existe - Factura con ID " + id + " no encontrada para eliminar");
     }
 
     private void saveInvoicesToCSV() {

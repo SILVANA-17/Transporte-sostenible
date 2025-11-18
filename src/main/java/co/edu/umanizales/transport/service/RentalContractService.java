@@ -28,23 +28,41 @@ public class RentalContractService {
             for (Map<String, String> row : data) {
                 RentalContract contract = new RentalContract();
                 contract.setId(Long.parseLong(row.get("id")));
+                
                 String vehicleId = row.get("vehicle");
-                if (vehicleId != null && !vehicleId.isEmpty()) {
+                if (vehicleId != null && !vehicleId.isEmpty() && !vehicleId.equals("null")) {
                     Vehicle vehicle = new Vehicle() {};
                     vehicle.setId(Long.parseLong(vehicleId));
                     contract.setVehicle(vehicle);
                 }
+                
                 String clientId = row.get("client");
-                if (clientId != null && !clientId.isEmpty()) {
+                if (clientId != null && !clientId.isEmpty() && !clientId.equals("null")) {
                     Client client = new Client();
                     client.setId(Long.parseLong(clientId));
                     contract.setClient(client);
                 }
-                contract.setStartDate(LocalDate.parse(row.get("startDate")));
-                contract.setEndDate(LocalDate.parse(row.get("endDate")));
-                contract.setTotalPrice(Double.parseDouble(row.get("totalPrice")));
+                
+                String startDate = row.get("startDate");
+                if (startDate != null && !startDate.isEmpty() && !startDate.equals("null")) {
+                    contract.setStartDate(LocalDate.parse(startDate));
+                }
+                
+                String endDate = row.get("endDate");
+                if (endDate != null && !endDate.isEmpty() && !endDate.equals("null")) {
+                    contract.setEndDate(LocalDate.parse(endDate));
+                }
+                
+                String totalPrice = row.get("totalPrice");
+                contract.setTotalPrice((totalPrice == null || totalPrice.equals("null") || totalPrice.isEmpty()) ? 0.0 : Double.parseDouble(totalPrice));
+                
                 contract.setStatus(row.get("status"));
-                contract.setPaymentMethod(PaymentMethod.valueOf(row.get("paymentMethod")));
+                
+                String paymentMethod = row.get("paymentMethod");
+                if (paymentMethod != null && !paymentMethod.isEmpty() && !paymentMethod.equals("null")) {
+                    contract.setPaymentMethod(PaymentMethod.valueOf(paymentMethod));
+                }
+                
                 contracts.add(contract);
                 nextContractId = Math.max(nextContractId, contract.getId() + 1);
             }

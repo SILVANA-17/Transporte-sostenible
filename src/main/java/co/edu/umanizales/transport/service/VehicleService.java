@@ -31,8 +31,13 @@ public class VehicleService {
                 bike.setId(Long.parseLong(row.get("id")));
                 bike.setBrand(row.get("brand"));
                 bike.setModel(row.get("model"));
-                bike.setPricePerHour(Double.parseDouble(row.get("pricePerHour")));
-                bike.setBatteryCapacity(Double.parseDouble(row.get("batteryCapacity")));
+                
+                String pricePerHour = row.get("pricePerHour");
+                bike.setPricePerHour((pricePerHour == null || pricePerHour.equals("null") || pricePerHour.isEmpty()) ? 0.0 : Double.parseDouble(pricePerHour));
+                
+                String batteryCapacity = row.get("batteryCapacity");
+                bike.setBatteryCapacity((batteryCapacity == null || batteryCapacity.equals("null") || batteryCapacity.isEmpty()) ? 0.0 : Double.parseDouble(batteryCapacity));
+                
                 bike.setLastMaintenanceDate(row.get("lastMaintenanceDate"));
                 bicycles.add(bike);
                 nextBicycleId = Math.max(nextBicycleId, bike.getId() + 1);
@@ -46,9 +51,16 @@ public class VehicleService {
                 moto.setId(Long.parseLong(row.get("id")));
                 moto.setBrand(row.get("brand"));
                 moto.setModel(row.get("model"));
-                moto.setPricePerHour(Double.parseDouble(row.get("pricePerHour")));
-                moto.setBatteryCapacity(Double.parseDouble(row.get("batteryCapacity")));
-                moto.setMaxSpeed(Integer.parseInt(row.get("maxSpeed")));
+                
+                String pricePerHour = row.get("pricePerHour");
+                moto.setPricePerHour((pricePerHour == null || pricePerHour.equals("null") || pricePerHour.isEmpty()) ? 0.0 : Double.parseDouble(pricePerHour));
+                
+                String batteryCapacity = row.get("batteryCapacity");
+                moto.setBatteryCapacity((batteryCapacity == null || batteryCapacity.equals("null") || batteryCapacity.isEmpty()) ? 0.0 : Double.parseDouble(batteryCapacity));
+                
+                String maxSpeed = row.get("maxSpeed");
+                moto.setMaxSpeed((maxSpeed == null || maxSpeed.equals("null") || maxSpeed.isEmpty()) ? 0 : Integer.parseInt(maxSpeed));
+                
                 moto.setLastMaintenanceDate(row.get("lastMaintenanceDate"));
                 motorcycles.add(moto);
                 nextMotorcycleId = Math.max(nextMotorcycleId, moto.getId() + 1);

@@ -21,13 +21,27 @@ public class InvoiceService {
         if (CSVUtil.fileExists(INVOICE_FILE)) {
             List<Map<String, String>> data = CSVUtil.readFromCSV(INVOICE_FILE);
             for (Map<String, String> row : data) {
-                Invoice invoice = new Invoice(
-                    Long.parseLong(row.get("invoiceId")),
-                    LocalDate.parse(row.get("date")),
-                    Double.parseDouble(row.get("totalValue"))
-                );
-                invoices.add(invoice);
-                nextInvoiceId = Math.max(nextInvoiceId, invoice.invoiceId() + 1);
+                try {
+                    String invoiceId = row.get("invoiceId");
+                    String date = row.get("date");
+                    String totalValue = row.get("totalValue");
+                    
+                    if ((invoiceId == null || invoiceId.equals("null") || invoiceId.isEmpty()) ||
+                        (date == null || date.equals("null") || date.isEmpty()) ||
+                        (totalValue == null || totalValue.equals("null") || totalValue.isEmpty())) {
+                        continue;
+                    }
+                    
+                    Invoice invoice = new Invoice(
+                        Long.parseLong(invoiceId),
+                        LocalDate.parse(date),
+                        Double.parseDouble(totalValue)
+                    );
+                    invoices.add(invoice);
+                    nextInvoiceId = Math.max(nextInvoiceId, invoice.invoiceId() + 1);
+                } catch (Exception e) {
+                    System.err.println("Error al cargar factura: " + e.getMessage());
+                }
             }
         }
     }

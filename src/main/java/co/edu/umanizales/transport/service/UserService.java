@@ -45,9 +45,16 @@ public class UserService {
                 employee.setId(Long.parseLong(row.get("id")));
                 employee.setName(row.get("name"));
                 employee.setEmail(row.get("email"));
-                employee.setEmployeeId(row.get("employeeId"));
-                employee.setDepartment(row.get("department"));
-                employee.setSalary(Double.parseDouble(row.get("salary")));
+                
+                String employeeId = row.get("employeeId");
+                employee.setEmployeeId((employeeId == null || employeeId.equals("null") || employeeId.isEmpty()) ? "" : employeeId);
+                
+                String department = row.get("department");
+                employee.setDepartment((department == null || department.equals("null") || department.isEmpty()) ? "" : department);
+                
+                String salary = row.get("salary");
+                employee.setSalary((salary == null || salary.equals("null") || salary.isEmpty()) ? 0.0 : Double.parseDouble(salary));
+                
                 employees.add(employee);
                 nextEmployeeId = Math.max(nextEmployeeId, employee.getId() + 1);
             }

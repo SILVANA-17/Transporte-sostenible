@@ -1,2 +1,4 @@
+
 id,name,email,employeeId,department,salary
 1,Carlos López,carlos@example.com,null,null,2500000.0
+2,Carlos López,carlos@example.com,EMP001,Operations,2500000.0

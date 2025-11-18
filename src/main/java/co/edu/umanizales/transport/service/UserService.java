@@ -4,6 +4,7 @@ import co.edu.umanizales.transport.model.Client;
 import co.edu.umanizales.transport.model.Employee;
 import co.edu.umanizales.transport.model.User;
 import co.edu.umanizales.transport.util.CSVUtil;
+import co.edu.umanizales.transport.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -75,6 +76,10 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Error: El ID del usuario debe ser un número válido mayor a 0");
+        }
+        
         for (Client client : clients) {
             if (client.getId() == id) {
                 return client;
@@ -85,10 +90,17 @@ public class UserService {
                 return employee;
             }
         }
-        return null;
+        throw new ResourceNotFoundException("Error: este dato no existe - Usuario con ID " + id + " no encontrado");
     }
 
     public User updateUser(Long id, User user) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Error: El ID del usuario debe ser un número válido mayor a 0");
+        }
+        if (user == null) {
+            throw new IllegalArgumentException("Error: Los datos del usuario no pueden estar vacíos");
+        }
+        
         for (int i = 0; i < clients.size(); i++) {
             if (clients.get(i).getId() == id) {
                 Client updated = (Client) user;
@@ -107,10 +119,14 @@ public class UserService {
                 return updated;
             }
         }
-        return null;
+        throw new ResourceNotFoundException("Error: este dato no existe - Usuario con ID " + id + " no encontrado para actualizar");
     }
 
     public boolean deleteUser(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Error: El ID del usuario debe ser un número válido mayor a 0");
+        }
+        
         boolean removed = clients.removeIf(c -> c.getId() == id);
         if (removed) {
             saveClientsToCSV();
@@ -121,7 +137,7 @@ public class UserService {
             saveEmployeesToCSV();
             return true;
         }
-        return false;
+        throw new ResourceNotFoundException("Error: este dato no existe - Usuario con ID " + id + " no encontrado para eliminar");
     }
 
     private void saveClientsToCSV() {

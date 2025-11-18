@@ -4,6 +4,7 @@ import co.edu.umanizales.transport.model.ElectricBicycle;
 import co.edu.umanizales.transport.model.ElectricMotorcycle;
 import co.edu.umanizales.transport.model.Vehicle;
 import co.edu.umanizales.transport.util.CSVUtil;
+import co.edu.umanizales.transport.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -77,6 +78,10 @@ public class VehicleService {
     }
 
     public Vehicle getVehicleById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Error: El ID del vehículo debe ser un número válido mayor a 0");
+        }
+        
         for (ElectricBicycle bike : bicycles) {
             if (bike.getId() == id) {
                 return bike;
@@ -87,10 +92,17 @@ public class VehicleService {
                 return moto;
             }
         }
-        return null;
+        throw new ResourceNotFoundException("Error: este dato no existe - Vehículo con ID " + id + " no encontrado");
     }
 
     public Vehicle updateVehicle(Long id, Vehicle vehicle) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Error: El ID del vehículo debe ser un número válido mayor a 0");
+        }
+        if (vehicle == null) {
+            throw new IllegalArgumentException("Error: Los datos del vehículo no pueden estar vacíos");
+        }
+        
         for (int i = 0; i < bicycles.size(); i++) {
             if (bicycles.get(i).getId() == id) {
                 ElectricBicycle updated = (ElectricBicycle) vehicle;
@@ -109,10 +121,14 @@ public class VehicleService {
                 return updated;
             }
         }
-        return null;
+        throw new ResourceNotFoundException("Error: este dato no existe - Vehículo con ID " + id + " no encontrado para actualizar");
     }
 
     public boolean deleteVehicle(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Error: El ID del vehículo debe ser un número válido mayor a 0");
+        }
+        
         boolean removed = bicycles.removeIf(b -> b.getId() == id);
         if (removed) {
             saveBicyclesToCSV();
@@ -123,7 +139,7 @@ public class VehicleService {
             saveMotorcyclesToCSV();
             return true;
         }
-        return false;
+        throw new ResourceNotFoundException("Error: este dato no existe - Vehículo con ID " + id + " no encontrado para eliminar");
     }
 
     private void saveBicyclesToCSV() {

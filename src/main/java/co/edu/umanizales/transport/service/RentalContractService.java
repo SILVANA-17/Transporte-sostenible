@@ -5,6 +5,7 @@ import co.edu.umanizales.transport.model.PaymentMethod;
 import co.edu.umanizales.transport.model.RentalContract;
 import co.edu.umanizales.transport.model.Vehicle;
 import co.edu.umanizales.transport.util.CSVUtil;
+import co.edu.umanizales.transport.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -62,13 +63,23 @@ public class RentalContractService {
     }
 
     public RentalContract getContractById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Error: El ID del contrato debe ser un número válido mayor a 0");
+        }
         return contracts.stream()
             .filter(c -> c.getId() == id)
             .findFirst()
-            .orElse(null);
+            .orElseThrow(() -> new ResourceNotFoundException("Error: este dato no existe - Contrato con ID " + id + " no encontrado"));
     }
 
     public RentalContract updateContract(Long id, RentalContract contract) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Error: El ID del contrato debe ser un número válido mayor a 0");
+        }
+        if (contract == null) {
+            throw new IllegalArgumentException("Error: Los datos del contrato no pueden estar vacíos");
+        }
+        
         for (int i = 0; i < contracts.size(); i++) {
             if (contracts.get(i).getId() == id) {
                 contract.setId(id);
@@ -77,15 +88,20 @@ public class RentalContractService {
                 return contract;
             }
         }
-        return null;
+        throw new ResourceNotFoundException("Error: este dato no existe - Contrato con ID " + id + " no encontrado para actualizar");
     }
 
     public boolean deleteContract(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Error: El ID del contrato debe ser un número válido mayor a 0");
+        }
+        
         boolean removed = contracts.removeIf(c -> c.getId() == id);
         if (removed) {
             saveContractsToCSV();
+            return true;
         }
-        return removed;
+        throw new ResourceNotFoundException("Error: este dato no existe - Contrato con ID " + id + " no encontrado para eliminar");
     }
 
     private void saveContractsToCSV() {

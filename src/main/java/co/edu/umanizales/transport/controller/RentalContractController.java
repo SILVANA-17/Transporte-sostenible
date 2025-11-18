@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class RentalContractController {
     private RentalContractService rentalContractService;
 
     @PostMapping
-    public ResponseEntity<RentalContract> createContract(@RequestBody RentalContract contract) {
+    public ResponseEntity<RentalContract> createContract(@Valid @RequestBody RentalContract contract) {
         RentalContract created = rentalContractService.createContract(contract);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
@@ -30,26 +31,18 @@ public class RentalContractController {
     @GetMapping("/{id}")
     public ResponseEntity<RentalContract> getContractById(@PathVariable Long id) {
         RentalContract contract = rentalContractService.getContractById(id);
-        if (contract != null) {
-            return ResponseEntity.ok(contract);
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(contract);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RentalContract> updateContract(@PathVariable Long id, @RequestBody RentalContract contract) {
+    public ResponseEntity<RentalContract> updateContract(@PathVariable Long id, @Valid @RequestBody RentalContract contract) {
         RentalContract updated = rentalContractService.updateContract(id, contract);
-        if (updated != null) {
-            return ResponseEntity.ok(updated);
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteContract(@PathVariable Long id) {
-        if (rentalContractService.deleteContract(id)) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        rentalContractService.deleteContract(id);
+        return ResponseEntity.noContent().build();
     }
 }
